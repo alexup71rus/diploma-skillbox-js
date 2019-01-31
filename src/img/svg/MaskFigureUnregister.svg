@@ -1,0 +1,18 @@
+<svg width="967" height="701" viewBox="0 0 967 701" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="935" height="701">
+<path d="M545 21.0002C676.971 71.5261 849.888 376.259 926.943 523.06C947.844 562.88 924.519 610.446 880.296 618.616C663.935 658.588 112.315 750.793 39 666.661C-52.5 561.661 34.896 410.258 140.5 248.5C266.5 55.5 370 -45.9995 545 21.0002Z" fill="url(#paint0_linear)"/>
+</mask>
+<g mask="url(#mask0)">
+<rect x="-15" y="-13" width="960" height="735" fill="url(#pattern0)"/>
+</g>
+<defs>
+<pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0" transform="translate(-0.520833) scale(0.00127604 0.00166667)"/>
+</pattern>
+<linearGradient id="paint0_linear" x1="396.987" y1="9.6441" x2="396.987" y2="697.392" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF23B4"/>
+<stop offset="1" stop-color="#E99C41"/>
+</linearGradient>
+<image id="image0" width="1600" height="600" xlink:href="https://source.unsplash.com/1600x1200/"/>
+</defs>
+</svg>
