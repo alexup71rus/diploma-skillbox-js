@@ -3,27 +3,13 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { usrReducer } from './reducers/index';
-import Router from './Router';
+import reducers from './reducers/index';
+import App from './Router';
 import './style.scss';
 
-class App extends Component {
-  constructor() {
-    super();
-  }
+const store = createStore(reducers, { user_info: {}, images: [], test: 3 });
 
-  render() {
-    return (
-      <div>
-        <Router />
-      </div>
-    );
-  }
-}
-
-const ustore = createStore(usrReducer, {});
-
-render(<Provider store={ustore}><App /></Provider>, document.getElementById('root'));
+render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

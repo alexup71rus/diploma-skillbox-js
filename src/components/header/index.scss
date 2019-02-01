@@ -3,3 +3,10 @@
         display: none;
     }
 }
+
+.app-header {
+    position: fixed;
+    width: 100vw;
+    // box-shadow: 0 -2px 5px;
+    z-index: 1;
+}

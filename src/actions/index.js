@@ -4,3 +4,23 @@ export const setMyInfo = (info) => {
         info: info
     }
 }
+
+export const addImages = (images) => {
+    return {
+        type: 'ADD_IMAGES',
+        images: images
+    }
+}
+
+export const likeImage = (id) => {
+    return {
+        type: 'SET_LIKE',
+        id: id
+    }
+}
+
+export const test = (int) => {
+    return {
+        type: 'TEST'
+    }
+}

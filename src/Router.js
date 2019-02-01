@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import Unsplash from 'unsplash-js';
 import Header from './components/header/index';
 import Home from './pages/home/index';
 import About from './pages/about/index';
 import UnregisterPage from './pages/unregister/index';
 
-import { setMyInfo } from './actions/index';
+import { setMyInfo, addImages, likeImage, test } from './actions/index';
 
 let app = {
   accessKey: '...',
@@ -15,8 +15,9 @@ let app = {
   keycode: '',
   token: '',
 };
+let _getUserInfo = true;
 
-let Rout = ({ userstate, setMyInfo }) => {
+let App = ({ state, setMyInfo, addImages, likeImage, test }) => {
   let unsplash = new Unsplash({
     applicationId: app.accessKey,
     secret: app.secretkey,
@@ -39,7 +40,7 @@ let Rout = ({ userstate, setMyInfo }) => {
               json.token = app.token;
               setMyInfo(json);
               window.localStorage.setItem('user', JSON.stringify(json));
-              // window.location.reload();
+              window.location.reload();
           });
         });
     } else if (!window.localStorage.getItem('user') && !app.token) { 
@@ -49,15 +50,17 @@ let Rout = ({ userstate, setMyInfo }) => {
         <Header authenticationUrl={authenticationUrl} />
         <UnregisterPage />
       </div>;
-    } else if (!userstate.first_name) {
+    } else if (_getUserInfo) {
+      _getUserInfo = false;
       setMyInfo(JSON.parse(window.localStorage.getItem('user')));
     }
   } catch (ex) { console.error(ex); }
-
+  
+  
   return <Router>
       <div className="App">
-        <Header unsplash={ unsplash } setMyInfo={ setMyInfo } userstate={ userstate } />
-        <Route exact path="/" render={ (ev)=>Home(app, unsplash, setMyInfo, userstate) } />
+        <Header unsplash={ unsplash } setMyInfo={ setMyInfo } state={ state.user_info } />
+        <Route exact path="/" render={ (ev)=>Home(app, unsplash, setMyInfo, addImages, likeImage, state) } />
         <Route exact path="/about" render={ About } />
       </div>
     </Router>;
@@ -65,7 +68,7 @@ let Rout = ({ userstate, setMyInfo }) => {
 
 const mapStateToProps = (state) => {
   return {
-    userstate: state
+    state: state,
   }
 }
 
@@ -73,14 +76,19 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setMyInfo: (info) => {
       dispatch(setMyInfo(info));
+    },
+    addImages: (images) => {
+      dispatch(addImages(images));
+    },
+    likeImage: (id) => {
+      dispatch(likeImage(id));
+    },
+    test: () => {
+      dispatch(test());
     }
   }
 }
 
-Rout = connect(
-  mapStateToProps,
-  mapDispatchToProps
+App = connect(mapStateToProps, mapDispatchToProps)(App);
 
-)(Rout);
-
-export default Rout;
+export default App;
