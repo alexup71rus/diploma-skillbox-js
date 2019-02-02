@@ -10,6 +10,9 @@ const Header = (props) => {
         <a className="navbar-brand" href="#" onClick={ev=>ev.preventDefault()}>
           <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="" /> <span className="logo-text">UNSPLASH</span> <span style={{color: "#999", fontSize: "13px"}}>viewer</span>
         </a>
+        {/* <form className="form-inline">
+          <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+        </form> */}
         {/* <a className="nav-link scroll-top-link" href="#">Home</a> */}
         <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

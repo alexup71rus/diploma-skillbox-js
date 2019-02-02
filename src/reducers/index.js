@@ -9,7 +9,8 @@ const reducers = (state = [], action) => {
 
         case 'ADD_IMAGES':
         return {
-            images: action.images,
+            images: [...state.images, ...action.images],
+            // images: [...state.images, action.images],
             user_info: {...state.user_info},
             test: state.test
         };

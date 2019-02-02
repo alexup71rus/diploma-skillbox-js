@@ -5,8 +5,10 @@
 }
 
 .app-header {
-    position: fixed;
-    width: 100vw;
-    // box-shadow: 0 -2px 5px;
+    position: fixed !important;
+    left: 50% !important;
+    top: 0 !important;
+    width: inherit;
     z-index: 1;
+    transform: translateX(-50%);
 }

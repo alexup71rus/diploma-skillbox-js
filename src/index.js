@@ -7,7 +7,7 @@ import reducers from './reducers/index';
 import App from './Router';
 import './style.scss';
 
-const store = createStore(reducers, { user_info: {}, images: [], test: 3 });
+const store = createStore(reducers, { user_info: {}, images: [], settings: [], test: 3 });
 
 render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

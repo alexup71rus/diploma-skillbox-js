@@ -9,6 +9,19 @@ import UnregisterPage from './pages/unregister/index';
 
 import { setMyInfo, addImages, likeImage, test } from './actions/index';
 
+window.onres = () => {
+  document.querySelector('.photos-grid-view ').addEventListener('DOMAttrModified', function(e){
+    console.log('prevValue: ' + e.prevValue, 'newValue: ' + e.newValue);
+    if (e.attrName === 'style') {
+      console.log('prevValue: ' + e.prevValue, 'newValue: ' + e.newValue);
+    }
+  }, false);
+  // document.querySelector('.navbar ').style.width = document.querySelector('.photos-grid-view ').style.width;
+  // window.onresize = function() {
+  //     document.querySelector('.navbar ').style.width = document.querySelector('.photos-grid-view ').style.width;
+  // }
+}
+
 let app = {
   accessKey: '...',
   secretkey: '...',
@@ -56,10 +69,9 @@ let App = ({ state, setMyInfo, addImages, likeImage, test }) => {
     }
   } catch (ex) { console.error(ex); }
   
-  
   return <Router>
       <div className="App">
-        <Header unsplash={ unsplash } setMyInfo={ setMyInfo } state={ state.user_info } />
+        {/* <Header unsplash={ unsplash } setMyInfo={ setMyInfo } state={ state.user_info } /> */}
         <Route exact path="/" render={ (ev)=>Home(app, unsplash, setMyInfo, addImages, likeImage, state) } />
         <Route exact path="/about" render={ About } />
       </div>
