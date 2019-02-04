@@ -1,3 +1,7 @@
+body {
+    min-height: 100vh;
+}
+
 .figure-image {
     top: 50%;
     left: 50%;
@@ -9,20 +13,23 @@
     z-index: -1;
 }
 
-.jumbotron-reg {
-    padding: 15px;
-    width: 90%;
-    max-width: 670px;
-    border-radius: 10px;
-    background: #ff2862;
-    color: #fff;
-    top: 25%;
-    left: 50%;
-    position: absolute;
-    text-align: center;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
+// .jumbotron-reg {
+//     padding: 15px;
+//     width: 90%;
+//     max-width: 670px;
+//     border-radius: 10px;
+//     background: #ff2862;
+//     color: #fff;
+//     // top: 25%;
+//     bottom: 0;
+//     left: 50%;
+//     position: absolute;
+//     text-align: center;
+//     -webkit-transform: translate(-50%, -50%);
+//     transform: translate(-50%, -50%);
+//     box-shadow: 0 3px 60px -5px #ff2862;
+//     opacity: .0;
+// }
 
 .photo-grid-view {
     text-align: center;
@@ -45,4 +52,16 @@
     max-height: 35vh;
     height: auto;
     z-index: -1;
+}
+
+.auth-btn {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 3px 30px -5px #888;
+}
+
+.auth-btn:hover {
+    box-shadow: 0 3px 20px -5px #007bff;
 }

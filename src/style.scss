@@ -3,6 +3,15 @@ body {
   background-color: #fff;
   color: #333;
   font-family: Lato, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  overflow: overlay;
+  padding: 0 5px;
+}
+
+@media (min-width: 700px) {
+  .App {
+    width: calc(100% - 50px);
+    margin: 0 auto;
+  }
 }
 
 li {
@@ -28,6 +37,6 @@ ul {
 }
 
 .navbar {
-  margin: 0 auto;
   background: #fff !important;
+  box-shadow: 10px 0 #fff, -10px 0 #fff;
 }

@@ -1,14 +1,49 @@
-@media (max-width: 500px) {
+.app-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1;
+    margin: 0 auto;
+}
+
+@media (min-width: 700px) {
+    .app-header {
+        width: 650px;
+    }  
+}
+
+@media (min-width: 1020px) {
+    .app-header {
+        width: 965px;
+    }  
+}
+
+@media (min-width: 1340px) {
+    .app-header {
+        width: 1292px;
+    }  
+}
+
+@media (min-width: 1660px) {
+    .app-header {
+        width: 1602px;
+    }  
+}
+
+@media (max-width: 699px) {
+    .app-header {
+        width: 100%;
+        // max-width: 330px;
+    }
+
     .logo-text, .username {
         display: none;
     }
+
+    .navbar {
+        padding: 10px 5%;
+    }
 }
 
-.app-header {
-    position: fixed !important;
-    left: 50% !important;
-    top: 0 !important;
-    width: inherit;
-    z-index: 1;
-    transform: translateX(-50%);
+.navbar-brand:hover {
+    opacity: .7;
 }

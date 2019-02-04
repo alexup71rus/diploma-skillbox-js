@@ -32,12 +32,12 @@ const Header = (props) => {
       </nav>
     </header>;
   } else {
-    return <header className="app-header">
+    // style={{width: "100%"}}
+    return <header className="app-header" style={{width: "100%"}}>
       <nav className="navbar navbar-light bg-light">
         <a className="navbar-brand" href="#" onClick={ev=>ev.preventDefault()}>
           <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="" /> <span className="logo-text">UNSPLASH</span> <span style={{color: "#999", fontSize: "13px"}}>viewer</span>
         </a>
-        <button className="btn btn-outline-primary" onClick={ev=>{window.location.assign(authenticationUrl);}}>Авторизация</button>
       </nav>
     </header>;
   }

@@ -12,10 +12,21 @@ export const addImages = (images) => {
     }
 }
 
-export const likeImage = (id) => {
+export const likeImage = (id, unsplash, image) => {
     return {
         type: 'SET_LIKE',
-        id: id
+        id: id,
+        unsplash: unsplash,
+        image: image,
+    }
+}
+
+export const popupImage = (id, state, image) => {
+    return {
+        type: 'POPUP_IMAGE',
+        id: id,
+        state: state,
+        image: image
     }
 }
 

@@ -1,0 +1,154 @@
+.popup-component {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    overflow: auto;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+}
+
+.bg-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    z-index: 1;
+    animation: showframe 1.5s;
+    overflow: auto;
+}
+
+.close-popup-bg {
+    position: fixed;
+    width: 98.5%;
+    height: 100%;
+}
+
+.blur {
+    transition: 3s;
+    filter: blur(20px);
+}
+
+.close-btn {
+    position: fixed;
+    right: 15px;
+    width: 10%;
+    max-width: 20px;
+    float: right;
+    margin: 20px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.close-btn:hover {
+    opacity: .3;
+}
+
+.popupContainer {
+    position: absolute;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: 1200px;
+    height: auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 90px -5px #777777;
+    overflow: hidden;
+    z-index: 9991;
+    opacity: 1;
+    animation: showimage .3s;
+}
+
+@keyframes showframe{
+    0% {
+        background: rgba(255, 255, 255, 0.0);
+    }
+    100% {
+        background: rgba(255, 255, 255, 0.6);
+    }
+}
+
+@keyframes showimage{
+    0% {
+        // top: 60%;
+        opacity: 0;
+    }
+    100% {
+        // top: 50%;
+        opacity: 1;
+    }
+}
+
+@media (min-width: 1200px) {
+    .image {
+        max-width: 1100px;
+    }
+
+    .i-min {
+        max-height: 85vh;
+    }
+}
+
+@media (max-width: 1200px) {
+    .image {
+        max-width: 99vw;
+    }
+
+    .i-min {
+        max-height: 80vh;
+    }
+}
+
+.popup_header {
+
+}
+
+.popup_profile-links {
+    display: inline-block;
+    position: absolute;
+    top: 8px;
+}
+
+a.popup_user-card__user-name {
+    color: #333 !important;
+}
+
+a.popup_user-card__user-login {
+    font-size: 13px;
+}
+
+img.download {
+    width: 24px;
+    float: right;
+    margin: 20px 20px 20px 0;
+    cursor: pointer;
+}
+
+img.download:hover {
+    opacity: .6;
+}
+
+.popup-like {
+    float: right;
+    margin: 20px;
+}
+
+.popup_profile-image {
+    width: 35px;
+    border-radius: 50%;
+    margin: 15px;
+}

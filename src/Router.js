@@ -7,20 +7,7 @@ import Home from './pages/home/index';
 import About from './pages/about/index';
 import UnregisterPage from './pages/unregister/index';
 
-import { setMyInfo, addImages, likeImage, test } from './actions/index';
-
-window.onres = () => {
-  document.querySelector('.photos-grid-view ').addEventListener('DOMAttrModified', function(e){
-    console.log('prevValue: ' + e.prevValue, 'newValue: ' + e.newValue);
-    if (e.attrName === 'style') {
-      console.log('prevValue: ' + e.prevValue, 'newValue: ' + e.newValue);
-    }
-  }, false);
-  // document.querySelector('.navbar ').style.width = document.querySelector('.photos-grid-view ').style.width;
-  // window.onresize = function() {
-  //     document.querySelector('.navbar ').style.width = document.querySelector('.photos-grid-view ').style.width;
-  // }
-}
+import { setMyInfo, addImages, likeImage, popupImage, test } from './actions/index';
 
 let app = {
   accessKey: '...',
@@ -30,7 +17,7 @@ let app = {
 };
 let _getUserInfo = true;
 
-let App = ({ state, setMyInfo, addImages, likeImage, test }) => {
+let App = ({ state, setMyInfo, addImages, likeImage, popupImage, test }) => {
   let unsplash = new Unsplash({
     applicationId: app.accessKey,
     secret: app.secretkey,
@@ -58,24 +45,32 @@ let App = ({ state, setMyInfo, addImages, likeImage, test }) => {
         });
     } else if (!window.localStorage.getItem('user') && !app.token) { 
       const authenticationUrl = unsplash.auth.getAuthenticationUrl(["public","write_likes"]);
-    
+      
       return <div>
         <Header authenticationUrl={authenticationUrl} />
-        <UnregisterPage />
+        <UnregisterPage authenticationUrl={authenticationUrl} />
       </div>;
     } else if (_getUserInfo) {
       _getUserInfo = false;
       setMyInfo(JSON.parse(window.localStorage.getItem('user')));
     }
   } catch (ex) { console.error(ex); }
-  
-  return <Router>
-      <div className="App">
-        {/* <Header unsplash={ unsplash } setMyInfo={ setMyInfo } state={ state.user_info } /> */}
-        <Route exact path="/" render={ (ev)=>Home(app, unsplash, setMyInfo, addImages, likeImage, state) } />
-        <Route exact path="/about" render={ About } />
-      </div>
-    </Router>;
+
+  if (window.localStorage.getItem('user')) {
+    let userInfo = JSON.parse( window.localStorage.getItem('user') );
+    app.keycode = userInfo.keycode;
+    app.token = userInfo.token;
+    unsplash.auth.setBearerToken( app.token );
+    return <Router>
+        <div className="App">
+          <Header unsplash={ unsplash } setMyInfo={ setMyInfo } state={ state.user_info } />
+          <Route exact path="/" render={ (ev)=>Home(app, unsplash, setMyInfo, addImages, likeImage, popupImage, state) } />
+          <Route exact path="/about" render={ About } />
+        </div>
+      </Router>;
+  } else {
+    return <b>Пожалуйста, подождите.</b>;
+  }
 }
 
 const mapStateToProps = (state) => {
@@ -92,8 +87,11 @@ const mapDispatchToProps = (dispatch) => {
     addImages: (images) => {
       dispatch(addImages(images));
     },
-    likeImage: (id) => {
-      dispatch(likeImage(id));
+    likeImage: (id, unsplash, image) => {
+      dispatch(likeImage(id, unsplash, image));
+    },
+    popupImage: (id, state, image) => {
+      dispatch(popupImage(id, state, image));
     },
     test: () => {
       dispatch(test());
