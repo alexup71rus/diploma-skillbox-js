@@ -1,64 +1,53 @@
 const reducers = (state = [], action) => {
+    let newState = {...state};
     switch (action.type) {
         case 'SET_MY_INFO':
-        return {
-            images: [...state.images],
-            user_info: action.info,
-            popup_image: {...state.popup_image},
-            test: state.test
-        };
+        newState.user_info = action.info;
+        return {...newState};
 
         case 'ADD_IMAGES':
-        return {
-            images: [...state.images, ...action.images],
-            user_info: {...state.user_info},
-            popup_image: {...state.popup_image},
-            test: state.test
-        };
+        newState.images = [...state.images, ...action.images];
+        return {...newState};
 
-        case 'SET_LIKE':
+        case 'TOGGLE_LIKE':
         let i = 0;
-        return {
-            images: state.images.map((image)=>{
-                i++;
-                if(i === action.id){
-                    if (image.liked_by_user) {
-                        image.liked_by_user = false;
-                        image.likes--;
-                        action.unsplash.photos.unlikePhoto(action.image);
-                    } else {
-                        image.liked_by_user = true;
-                        image.likes++;
-                        action.unsplash.photos.likePhoto(action.image);
-                    }
-                    return image;
+        newState.images = state.images.map((image)=>{
+            i++;
+            if(i === action.id){
+                if (image.liked_by_user) {
+                    image.liked_by_user = false;
+                    image.likes--;
+                    action.unsplash.photos.unlikePhoto(action.image);
+                } else {
+                    image.liked_by_user = true;
+                    image.likes++;
+                    action.unsplash.photos.likePhoto(action.image);
                 }
                 return image;
-              }),
-            user_info: {...state.user_info},
-            popup_image: {...state.popup_image},
-            test: ++state.test
-        };;
+            }
+            return image;
+        });
+        return {...newState};
 
         case 'POPUP_IMAGE':
-        return {
-            images: [...state.images],
-            user_info: {...state.user_info},
-            popup_image: {
-                id: action.id,
-                state: action.state,
-                image: action.image
-            },
-            test: state.test
-        }
-
-        case 'TEST':
-        return {
-            images: [...state.images],
-            user_info: {...state.user_info},
-            popup_image: {...state.popup_image},
-            test: ++state.test
+        newState.popup_image = {
+            id: action.id,
+            state: action.state,
+            image: action.image
         };
+        return {...newState};
+
+        case 'TOGGLE_BLUR':
+        newState.settings.blur = action.status;
+        console.log(newState.settings);
+        window.localStorage.setItem('settings', JSON.stringify(newState.settings));
+        return {...newState};
+
+        case 'TOGGLE_DATE':
+        newState.settings.date = action.status;
+        console.log(newState.settings);
+        window.localStorage.setItem('settings', JSON.stringify(newState.settings));
+        return {...newState};
 
         default:
         return state;

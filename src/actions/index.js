@@ -14,7 +14,7 @@ export const addImages = (images) => {
 
 export const likeImage = (id, unsplash, image) => {
     return {
-        type: 'SET_LIKE',
+        type: 'TOGGLE_LIKE',
         id: id,
         unsplash: unsplash,
         image: image,
@@ -30,8 +30,16 @@ export const popupImage = (id, state, image) => {
     }
 }
 
-export const test = (int) => {
+export const toggleBlur = (status) => {
     return {
-        type: 'TEST'
+        type: 'TOGGLE_BLUR',
+        status: status
+    }
+}
+
+export const toggleDate = (status) => {
+    return {
+        type: 'TOGGLE_DATE',
+        status: status
     }
 }

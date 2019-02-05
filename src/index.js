@@ -7,7 +7,12 @@ import reducers from './reducers/index';
 import App from './Router';
 import './style.scss';
 
-const store = createStore(reducers, { user_info: {}, images: [], settings: [], popup_image: { id: -1, state: {}, image: {} }, test: 3 });
+const settings = window.localStorage.getItem('settings') ? JSON.parse(window.localStorage.getItem('settings')) : {
+    date: false,
+    blur: true
+};
+
+const store = createStore(reducers, { user_info: {}, images: [], settings: {...settings}, popup_image: { id: -1, state: {}, image: {} } });
 
 render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

@@ -1,39 +1,71 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import closeSVG from '../../img/svg/close.svg';
 import downloadSVG from '../../img/svg/126488.svg';
+import like from '../../img/svg/61731.svg';
+import liked from '../../img/svg/291212.svg';
 import './index.scss';
 
-const Popup = ({ state, popupImage }) => {
-    document.querySelector('.photos-grid-view').classList.add('blur');
-    document.querySelector('.navbar').classList.add('blur');
+const Popup = (ev, state, statePopupImage, popupImage, index, unsplash, likeImage) => {
+    if(document.querySelector('.photos-grid-view') && state.settings.blur) {
+        document.querySelector('.photos-grid-view').classList.add('blur');
+        document.querySelector('.navbar').classList.add('blur');
+    }
     document.body.style.overflow = 'hidden';
-    return <div className="popup">
-        <div className="bg-popup" onClick={ev=>popupImage(-1, {}, {})}></div>
-        <div className="popup-component">
-            <div className="close-popup-bg" onClick={ev=>popupImage(-1, {}, {})}></div>
-            <img src={closeSVG} alt="" className="close-btn" onClick={ev=>popupImage(-1, {}, {})} />
-            <div className="popupContainer">
-                <div className="popup_header">
-                    <span className="popup_user-card">
-                        <img src={state.image.user.profile_image.small} alt="" className="popup_profile-image" />
-                        <div className="popup_profile-links">
-                            <b className="popup_user-card__user-name"> {state.image.user.name}</b>
-                            <br/>
-                            <b> <a href={state.image.user.links.html} target="_blank" rel="noopener noreferrer" className="popup_user-card__user-login">@{state.image.user.username}</a></b>
+    if(statePopupImage.id > -1) {
+        let liked_by = statePopupImage.image.liked_by_user?liked:like;
+        return <div className="popup">
+            <Link to="/">
+                <div className="bg-popup" ></div>
+            </Link>
+            <div className="popup-component">
+                <Link to="/">
+                    <div className="close-popup-bg" ></div>
+                    <img src={closeSVG} alt="" className="close-btn"  />
+                </Link>
+                <div className="popupContainer">
+                    <div className="popup_header">
+                        <div className="popup_user-card">
+                            <img src={statePopupImage.image.user.profile_image.small} alt="" className="popup_profile-image" />
+                            <div className="popup_profile-links">
+                                <b className="popup_user-card__user-name"> {statePopupImage.image.user.name}</b>
+                                <br/>
+                                <b> <a href={statePopupImage.image.user.links.html} target="_blank" rel="noopener noreferrer" className="popup_user-card__user-login">@{statePopupImage.image.user.username}</a></b>
+                            </div>
                         </div>
-                    </span>
-                    <a href={state.image.links.download} target="_blank" rel="noopener noreferrer">
-                        <img src={downloadSVG} alt="" className="download" />
-                    </a>
-                    <button className="like-button popup-like">
-                        <img src="/static/media/61731.5fc44516.svg" alt="" className="like-small" />
-                        <span className="likes">{state.image.likes}</span>
-                    </button>
+                        <a href={statePopupImage.image.links.download} target="_blank" rel="noopener noreferrer">
+                            <img src={downloadSVG} alt="" className="download" />
+                        </a>
+                        <button className="like-button popup-like" onClick={ev=>likeImage(index, unsplash, statePopupImage.image.id)}>
+                            <img src={liked_by} alt="" className="like-small" />
+                            <span className="likes">{statePopupImage.image.likes}</span>
+                        </button>
+                    </div>
+                    <img src={statePopupImage.image.urls.regular} alt="" className="image i-max" onClick={ev=>{
+                        if(ev.target.classList[1] == 'i-max') {
+                            ev.target.classList.remove('i-max');
+                            ev.target.classList.add('i-min');
+                        } else if (ev.target.classList[1] == 'i-min') {
+                            ev.target.classList.remove('i-min');
+                            ev.target.classList.add('i-max');
+                        }
+                    }} />
+                    {state.settings.date?<div className="popup_date-owner">{statePopupImage.image.updated_at}</div>:null}
                 </div>
-                <img src={state.image.urls.regular} alt="" className="image i-min" />
             </div>
-        </div>
-    </div>;
+        </div>;
+    } else {
+        if(statePopupImage.id == -1) {
+            popupImage(-2, {/* state */}, {});
+            unsplash.photos.getPhoto(ev.location.pathname.split('/')[2])
+            .then(res => res.json())
+            .then(json => {
+                popupImage(9999, {/* state */}, json);
+            });
+        }
+
+        return <div>Загрузка...</div>;
+    }
 }
 
 export default Popup;

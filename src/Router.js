@@ -4,10 +4,10 @@ import { connect, Provider } from 'react-redux';
 import Unsplash from 'unsplash-js';
 import Header from './components/header/index';
 import Home from './pages/home/index';
-import About from './pages/about/index';
+import Settings from './pages/settings/index';
 import UnregisterPage from './pages/unregister/index';
 
-import { setMyInfo, addImages, likeImage, popupImage, test } from './actions/index';
+import { setMyInfo, addImages, likeImage, popupImage, toggleBlur, toggleDate } from './actions/index';
 
 let app = {
   accessKey: '...',
@@ -17,7 +17,7 @@ let app = {
 };
 let _getUserInfo = true;
 
-let App = ({ state, setMyInfo, addImages, likeImage, popupImage, test }) => {
+let App = ({ state, setMyInfo, addImages, likeImage, popupImage, toggleBlur, toggleDate }) => {
   let unsplash = new Unsplash({
     applicationId: app.accessKey,
     secret: app.secretkey,
@@ -63,9 +63,10 @@ let App = ({ state, setMyInfo, addImages, likeImage, popupImage, test }) => {
     unsplash.auth.setBearerToken( app.token );
     return <Router>
         <div className="App">
-          <Header unsplash={ unsplash } setMyInfo={ setMyInfo } state={ state.user_info } />
-          <Route exact path="/" render={ (ev)=>Home(app, unsplash, setMyInfo, addImages, likeImage, popupImage, state) } />
-          <Route exact path="/about" render={ About } />
+          <Header unsplash={ unsplash } setMyInfo={ setMyInfo } user_info={ state.user_info }  state={ state } toggleBlur={ toggleBlur } toggleDate={ toggleDate } />
+          <Route exact path="/*" render={ (ev)=>Home(ev, app, unsplash, setMyInfo, addImages, likeImage, popupImage, state) } />
+          <Route exact path="/settings" render={ Settings } />
+          {/* <Route exact path="/:image" component={ (ev)=>Home(ev, unsplash, setMyInfo, addImages, likeImage, popupImage, state) } /> */}
         </div>
       </Router>;
   } else {
@@ -93,8 +94,11 @@ const mapDispatchToProps = (dispatch) => {
     popupImage: (id, state, image) => {
       dispatch(popupImage(id, state, image));
     },
-    test: () => {
-      dispatch(test());
+    toggleBlur: (status) => {
+      dispatch(toggleBlur(status));
+    },
+    toggleDate: (status) => {
+      dispatch(toggleDate(status));
     }
   }
 }
