@@ -1,3 +1,8 @@
+## Информация перед запуском
+
+1. В папке scr в файле Router.js на 13 и 14 строчке нужно поставить свои ключи от unsplash
+2. В этом же файле на 24 строчке нужно указать свой публичный url приложения. Если это localhost:3000, то можно не менять.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
