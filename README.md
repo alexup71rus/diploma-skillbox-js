@@ -1,3 +1,5 @@
+Видео: https://www.youtube.com/watch?v=Kgjrh8zUmb4&t
+
 ## Информация перед запуском
 
 1. В папке scr в файле Router.js на 13 и 14 строчке нужно поставить свои ключи от unsplash
