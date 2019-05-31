@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.scss';
 import logo from '../../img/svg/logo2.svg';
 
-const Header = ({ unsplash, setMyInfo, user_info, authenticationUrl, state, toggleBlur, toggleDate }) => {
+const Header = ({ unsplash, setMyInfo, user_info, authenticationUrl, state, changeSettings }) => {
   if(user_info){
     let linkSelf = user_info.links?user_info.links.html:'#';
     return <header className="app-header">
@@ -20,11 +20,11 @@ const Header = ({ unsplash, setMyInfo, user_info, authenticationUrl, state, togg
             <h6 className="dropdown-header">Настройки</h6>
             <div style={{marginLeft: '10px'}}>
               <div className="custom-control custom-checkbox">
-                <input type="checkbox" className="custom-control-input" id="dateSet" defaultChecked={state.settings.date} onChange={ev=>{ toggleDate(!state.settings.date); }} />
+                <input type="checkbox" className="custom-control-input" id="dateSet" defaultChecked={state.settings.date} onChange={ev=>{ changeSettings({date: !state.settings.date}); }} />
                 <label className="custom-control-label" htmlFor="dateSet">Показывать дату</label>
               </div>
               <div className="custom-control custom-checkbox">
-                <input type="checkbox" className="custom-control-input" id="blurSet" defaultChecked={state.settings.blur} onChange={ev=>{ toggleBlur(!state.settings.blur); }} />
+                <input type="checkbox" className="custom-control-input" id="blurSet" defaultChecked={state.settings.blur} onChange={ev=>{ changeSettings({blur: !state.settings.blur}); }} />
                 <label className="custom-control-label" htmlFor="blurSet">Размытие фона popup</label>
               </div>
             </div>
@@ -39,7 +39,6 @@ const Header = ({ unsplash, setMyInfo, user_info, authenticationUrl, state, togg
       </nav>
     </header>;
   } else {
-    // style={{width: "100%"}}
     return <header className="app-header" style={{width: "100%"}}>
       <nav className="navbar navbar-light bg-light">
         <a className="navbar-brand" href="#" onClick={ev=>ev.preventDefault()}>

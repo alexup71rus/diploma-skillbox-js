@@ -30,16 +30,9 @@ export const popupImage = (id, state, image) => {
     }
 }
 
-export const toggleBlur = (status) => {
+export const changeSettings = (arr) => {
     return {
-        type: 'TOGGLE_BLUR',
-        status: status
-    }
-}
-
-export const toggleDate = (status) => {
-    return {
-        type: 'TOGGLE_DATE',
-        status: status
+        type: 'CHANGE_SETTINGS',
+        arr: arr
     }
 }

@@ -38,15 +38,8 @@ const reducers = (state = [], action) => {
         return {...newState};
 
         case 'TOGGLE_BLUR':
-        newState.settings.blur = action.status;
-        console.log(newState.settings);
-        window.localStorage.setItem('settings', JSON.stringify(newState.settings));
-        return {...newState};
-
-        case 'TOGGLE_DATE':
-        newState.settings.date = action.status;
-        console.log(newState.settings);
-        window.localStorage.setItem('settings', JSON.stringify(newState.settings));
+        newState.settings = { ...action.arr };
+        // window.localStorage.setItem('settings', JSON.stringify(newState.settings)); window.localStorage.setItem('settings', JSON.stringify(newState.settings));
         return {...newState};
 
         default:

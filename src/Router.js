@@ -1,76 +1,49 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
-import Unsplash from 'unsplash-js';
+import { getUser, getToken, unsplash } from './apis/unsplash';
 import Header from './components/header/index';
-import Home from './pages/home/index';
-import Settings from './pages/settings/index';
-import UnregisterPage from './pages/unregister/index';
+import Home from './containers/home/index';
+import UnregisterPage from './containers/authpage/index';
+import { getCookie, setCookie } from './helpers';
 
-import { setMyInfo, addImages, likeImage, popupImage, toggleBlur, toggleDate } from './actions/index';
+import { setMyInfo, addImages, likeImage, popupImage, changeSettings } from './actions/index';
 
-let app = {
-  accessKey: '...',
-  secretkey: '...',
-  keycode: '',
-  token: '',
-};
-let _getUserInfo = true;
-
-let App = ({ state, setMyInfo, addImages, likeImage, popupImage, toggleBlur, toggleDate }) => {
-  let unsplash = new Unsplash({
-    applicationId: app.accessKey,
-    secret: app.secretkey,
-    callbackUrl: "http://khodyr.ru/php/unsplash.php"
-  });
-  try{
-    let code;
-    if (code = window.location.search.split('code=')[1]) {
-      window.history.pushState({}, "", "/");
-      unsplash.auth.userAuthentication(code)
-        .then(res => res.json())
-        .then(json => {
-          unsplash.auth.setBearerToken(json.access_token);
-          app.keycode = code;
-          app.token = json.access_token;
-          unsplash.currentUser.profile()
-            .then(res => res.json())
-            .then(json => {
-              json.keycode = app.keycode;
-              json.token = app.token;
-              setMyInfo(json);
-              window.localStorage.setItem('user', JSON.stringify(json));
-              window.location.reload();
-          });
-        });
-    } else if (!window.localStorage.getItem('user') && !app.token) { 
-      const authenticationUrl = unsplash.auth.getAuthenticationUrl(["public","write_likes"]);
-      
-      return <div>
-        <Header authenticationUrl={authenticationUrl} />
-        <UnregisterPage authenticationUrl={authenticationUrl} />
-      </div>;
-    } else if (_getUserInfo) {
-      _getUserInfo = false;
-      setMyInfo(JSON.parse(window.localStorage.getItem('user')));
+class App extends React.Component {  
+  render() {
+    const { state, setMyInfo, addImages, likeImage, popupImage, changeSettings } = this.props;
+    window.token = getCookie("token");
+    const getAsync = async () => {
+      if (!window.token && (window.location.search.split('code=')[1] || window.localStorage['keycode'])) {
+        await getToken(unsplash);
+      }
+      if (window.location.search.split('code=')[1]) {
+        let data = await getUser(unsplash);
+        if (data != "Rate Limit Exceeded" && !JSON.parse(data).errors) {
+          console.log(data);
+          window.localStorage['user'] = data;
+        }
+      }
     }
-  } catch (ex) { console.error(ex); }
-
-  if (window.localStorage.getItem('user')) {
-    let userInfo = JSON.parse( window.localStorage.getItem('user') );
-    app.keycode = userInfo.keycode;
-    app.token = userInfo.token;
-    unsplash.auth.setBearerToken( app.token );
-    return <Router>
-        <div className="App">
-          <Header unsplash={ unsplash } setMyInfo={ setMyInfo } user_info={ state.user_info }  state={ state } toggleBlur={ toggleBlur } toggleDate={ toggleDate } />
-          <Route exact path="/*" render={ (ev)=>Home(ev, app, unsplash, setMyInfo, addImages, likeImage, popupImage, state) } />
-          <Route exact path="/settings" render={ Settings } />
-          {/* <Route exact path="/:image" component={ (ev)=>Home(ev, unsplash, setMyInfo, addImages, likeImage, popupImage, state) } /> */}
-        </div>
-      </Router>;
-  } else {
-    return <b>Пожалуйста, подождите.</b>;
+    getAsync();
+    setMyInfo(JSON.parse(window.localStorage['user']));
+    console.log(JSON.parse(window.localStorage['user']));
+    if (!getCookie("token") || !window.localStorage['keycode']) {      
+      return <div>
+        <Header />
+        <UnregisterPage />
+      </div>;
+    } else if (window.localStorage['user']) {
+      unsplash.auth.setBearerToken( window.localStorage['token'] );
+      return <Router>
+          <div className="App">
+            <Header unsplash={ unsplash } setMyInfo={ setMyInfo } user_info={ state.user_info }  state={ state } changeSettings={ changeSettings } />
+            <Route exact path="/*" render={ (ev)=>Home(ev, unsplash, setMyInfo, addImages, likeImage, popupImage, state) } />
+          </div>
+        </Router>;
+    } else {
+      return <b>Лимит запросов исчерпан или что-то пошло не так!</b>;
+    }
   }
 }
 
@@ -94,11 +67,8 @@ const mapDispatchToProps = (dispatch) => {
     popupImage: (id, state, image) => {
       dispatch(popupImage(id, state, image));
     },
-    toggleBlur: (status) => {
-      dispatch(toggleBlur(status));
-    },
-    toggleDate: (status) => {
-      dispatch(toggleDate(status));
+    changeSettings: (status) => {
+      dispatch(changeSettings(status));
     }
   }
 }

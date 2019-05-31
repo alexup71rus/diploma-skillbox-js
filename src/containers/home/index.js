@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Masonry from 'react-masonry-component';
-import Header from '../../components/header/index';
+// import Header from '../../components/header/index';
 import Popup from '../../components/popup/index';
 import './index.scss';
-import logo from '../../img/svg/logo2.svg';
+// import logo from '../../img/svg/logo2.svg';
 import like from '../../img/svg/61731.svg';
 import liked from '../../img/svg/291212.svg';
 

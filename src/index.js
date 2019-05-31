@@ -1,16 +1,17 @@
+"use strict";
 import * as serviceWorker from './serviceWorker';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from './reducers/index';
-import App from './Router';
+import App from './router';
 import './style.scss';
 
-const settings = window.localStorage.getItem('settings') ? JSON.parse(window.localStorage.getItem('settings')) : {
+const settings = window.localStorage['settings'] ? JSON.parse(window.localStorage['settings']) : window.localStorage['settings'] = JSON.stringify({
     date: false,
     blur: true
-};
+});
 
 const store = createStore(reducers, { user_info: {}, images: [], settings: {...settings}, popup_image: { id: -1, state: {}, image: {} } });
 
