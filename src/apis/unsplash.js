@@ -61,7 +61,7 @@ export const getPhotos = (unsplash, amount = 20) => {
   
 export const getPhotos_ = (unsplash, start = 1, end = 15) => {
     return (
-      unsplash.photos.listPhotos(start, amount, 'latest')
+      unsplash.photos.listPhotos(start, end, 'latest')
         .then(res => res.json())
         .then(res => res)
     )
