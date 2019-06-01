@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.scss';
 import logo from '../../img/svg/logo2.svg';
 
-const Header = ({ unsplash, setMyInfo, user_info, authenticationUrl, state, changeSettings }) => {
+const Header = ({ setMyInfo, user_info, authenticationUrl, state, changeSettings }) => {
   if(user_info){
     let linkSelf = user_info.links?user_info.links.html:'#';
     return <header className="app-header">

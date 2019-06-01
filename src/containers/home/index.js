@@ -5,77 +5,47 @@ import Popup from '../../components/popup/index';
 import './index.scss';
 import like from '../../img/svg/61731.svg';
 import liked from '../../img/svg/291212.svg';
+import { getPhotos, unsplash } from '../../apis/unsplash';
 
-let i = 0;
-let loading = false;
-let limit = false;
-const debounce = (addImages, unsplash, state) => {
-    i++;
-    window.onscroll = function() {
-        var scrolled = window.pageYOffset || document.documentElement.scrollTop;
-        if (window.innerHeight + scrolled >= document.body.clientHeight - 300) {
-            if(!loading) {
-                loading = true;
-                unsplash.photos.listPhotos(i, 16, "latest") // отключить при отладке
-                .then(res => {
-                    if(res.ok) {
-                        return res.json();
-                    } else {
-                        limit = true;
-                    }
-                })
-                .then(json => {
-                    if (json && !limit) {
-                        loading = false;
-                        i++;
-                        addImages( json );
-                    } else if (!json && !limit) {
-                        limit = true;
-                        alert('Исчерпан лимит запросов!');
-                        console.error('Исчерпан лимит запросов!');
-                    }
-                });
+let i = 1;
+let loadingImages = false;
+let limitRequests = false;
+const debounce = async (addImages, unsplash, state) => {
+    let scrolled = window.pageYOffset || document.documentElement.scrollTop;
+    if (window.innerHeight + scrolled >= document.body.clientHeight - 300) {
+        if(!loadingImages) {
+            loadingImages = true;
+            const res = await getPhotos(unsplash, i, 15);
+            if (res && Object.keys(res).length) {
+                i++;
+                addImages(res);
+                loadingImages = false;
+            } else {
+                limitRequests = true;
+                alert('Исчерпан лимит запросов!');
+                console.error('Исчерпан лимит запросов!');
             }
         }
     }
 }
 
-const Home = (unsplash, setMyInfo, addImages, likeImage, popupImage, state) => {
+const Home = (setMyInfo, addImages, likeImage, popupImage, state) => {
     if (!Object.keys(state.user_info).length) {
         setMyInfo(JSON.parse(window.localStorage['user']));
     }
-    debounce(addImages, unsplash, state); // отключить при отладке
     if (state.images.length === 0) {
-        try {
-            unsplash.photos.listPhotos(i, 15, "latest") // отключить при отладке
-            .then(res => {
-                console.log(res);
-                if(res.ok) {
-                    return res.json();
-                } else {
-                    limit = true;
-                }
-            })
-            .then(json => {
-                console.log(json);
-                if (state.images.length === 0 && json) {
-                    addImages( json );
-                } else if (!json && !limit) {
-                    alert('Исчерпан лимит запросов!');
-                    console.error('Исчерпан лимит запросов!');
-                }
-            });
-        } catch (ex) { console.error("Ошибка при работе с unsplash:" + ex) }
+        debounce(addImages, unsplash, state);
     }
-    window.st = state;
-    console.log(state);
+    window.onscroll = function() {
+        debounce(addImages, unsplash, state);
+    }
 
     if(document.querySelector('.photos-grid-view')) {
         document.querySelector('.photos-grid-view').classList.remove('blur');
         document.querySelector('.navbar').classList.remove('blur');
     }
     document.body.style.overflow = 'overlay';
-    if(limit) {
+    if(limitRequests) {
         return <div>Лимит запросов исчерпан. Приходите позже.</div>;
     } else {
         return <div className="home-container">
@@ -113,14 +83,6 @@ const Home = (unsplash, setMyInfo, addImages, likeImage, popupImage, state) => {
                     })
                 }
             </Masonry>
-            <button className="btn load-more" onClick={ev=>{
-                unsplash.photos.listPhotos(i, 16, "latest")
-                    .then(res => res.json())
-                    .then(json => {
-                        i++;
-                        addImages( json );
-                    });
-            }}>Загрузить ещё</button>
             </div>;
     }
 }

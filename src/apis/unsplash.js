@@ -25,22 +25,23 @@ export const authenticationUnsplash = (unsplash) => {
 }
 
 export const getToken = (unsplash) => {
-    getCookie("token");
     if (getCookie("token")) {
         return unsplash.auth.setBearerToken(getCookie("token"));
     };
     const code = window.location.search.split('code=')[1];
     if (code) {
         return unsplash.auth.userAuthentication(code)
-            .then(res => res.json())
+            .then(res => res.text())
             .then(res => {
-                window.localStorage['keycode'] = code;
-                let date = new Date;
-                date.setDate(date.getDate() + 1);
-                setCookie("token", res.access_token, {
-                    expires: date.toUTCString()
-                });
-                unsplash.auth.setBearerToken(res.access_token);
+                if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) {
+                    window.localStorage['keycode'] = code;
+                    let date = new Date;
+                    date.setDate(date.getDate() + 1);
+                    setCookie("token", res.access_token, {
+                        expires: date.toUTCString()
+                    });
+                    unsplash.auth.setBearerToken(res.access_token);
+                } else { console.error("Лимит запросов исчерпан!"); }
         });
     }
 }
@@ -48,37 +49,41 @@ export const getToken = (unsplash) => {
 export const getUser = (unsplash) => {
     return unsplash.currentUser.profile()
       .then(res => res.text())
-      .then(res => res)
+      .then(res => {
+        if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
+        else { console.error("Лимит запросов исчерпан!"); }
+      })
 }
   
-export const getPhotos = (unsplash, amount = 20) => {
-    return (
-      unsplash.photos.listPhotos(1, amount, 'latest')
-        .then(res => res.json())
-        .then(res => res)
-    )
-}
-  
-export const getPhotos_ = (unsplash, start = 1, end = 15) => {
+export const getPhotos = (unsplash, start = 1, end = 15) => {
     return (
       unsplash.photos.listPhotos(start, end, 'latest')
-        .then(res => res.json())
-        .then(res => res)
+        .then(res => res.text())
+        .then(res => {
+            if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
+            else { console.error("Лимит запросов исчерпан!"); }
+        })
     )
 }
   
 export const likePhoto = (unsplash, id) => {
     return (
       unsplash.photos.likePhoto(id)
-        .then(res => res.json())
-        .then(res => res)
+        .then(res => res.text())
+        .then(res => {
+            if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
+            else { console.error("Лимит запросов исчерпан!"); }
+        })
     )
 }
   
 export const unlikePhoto = (unsplash, id) => {
     return (
       unsplash.photos.unlikePhoto(id)
-        .then(res => res.json())
-        .then(res => res)
+        .then(res => res.text())
+        .then(res => {
+            if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
+            else { console.error("Лимит запросов исчерпан!"); }
+        })
     )
 }

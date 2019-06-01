@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from './reducers/index';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import App from './router';
 import './style.scss';
 
@@ -15,7 +16,7 @@ const settings = window.localStorage['settings'] ? JSON.parse(window.localStorag
 
 const store = createStore(reducers, { user_info: {}, images: [], settings: {...settings}, popup_image: { id: -1, state: {}, image: {} } });
 
-render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+render(<Provider store={store}><Router><Route exact path="*" render={ (ev)=><App routeLocation={ev} />} /></Router></Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
