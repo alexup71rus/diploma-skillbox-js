@@ -59,6 +59,14 @@ export const getPhotos = (unsplash, amount = 20) => {
     )
 }
   
+export const getPhotos_ = (unsplash, start = 1, end = 15) => {
+    return (
+      unsplash.photos.listPhotos(start, amount, 'latest')
+        .then(res => res.json())
+        .then(res => res)
+    )
+}
+  
 export const likePhoto = (unsplash, id) => {
     return (
       unsplash.photos.likePhoto(id)

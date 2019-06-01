@@ -1,80 +1,81 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Masonry from 'react-masonry-component';
-// import Header from '../../components/header/index';
 import Popup from '../../components/popup/index';
 import './index.scss';
-// import logo from '../../img/svg/logo2.svg';
 import like from '../../img/svg/61731.svg';
 import liked from '../../img/svg/291212.svg';
 
 let i = 0;
 let loading = false;
-window.limit = false;
-const onscroll = (addImages, unsplash, state) => {
+let limit = false;
+const debounce = (addImages, unsplash, state) => {
     i++;
     window.onscroll = function() {
         var scrolled = window.pageYOffset || document.documentElement.scrollTop;
         if (window.innerHeight + scrolled >= document.body.clientHeight - 300) {
             if(!loading) {
                 loading = true;
-                unsplash.photos.listPhotos(i, 10, "latest") // отключить при отладке
+                unsplash.photos.listPhotos(i, 16, "latest") // отключить при отладке
                 .then(res => {
                     if(res.ok) {
                         return res.json();
                     } else {
-                        window.limit = true;
+                        limit = true;
                     }
                 })
                 .then(json => {
-                    if (json && !window.limit) {
+                    if (json && !limit) {
                         loading = false;
                         i++;
                         addImages( json );
-                    } else if (!json && !window.limit) {
-                        window.limit = true;
+                    } else if (!json && !limit) {
+                        limit = true;
                         alert('Исчерпан лимит запросов!');
                         console.error('Исчерпан лимит запросов!');
                     }
                 });
-
-                // addImages( [...JSON.parse(window.localStorage.getItem('images'))] ); // включить при отладке
             }
         }
     }
 }
 
-const Home = (ev, app, unsplash, setMyInfo, addImages, likeImage, popupImage, state) => {
-    onscroll(addImages, unsplash, state); // отключить при отладке
+const Home = (unsplash, setMyInfo, addImages, likeImage, popupImage, state) => {
+    if (!Object.keys(state.user_info).length) {
+        setMyInfo(JSON.parse(window.localStorage['user']));
+    }
+    debounce(addImages, unsplash, state); // отключить при отладке
     if (state.images.length === 0) {
         try {
-            // addImages( JSON.parse(window.localStorage.getItem('images')) ); // включить при отладке
-
             unsplash.photos.listPhotos(i, 15, "latest") // отключить при отладке
             .then(res => {
+                console.log(res);
                 if(res.ok) {
                     return res.json();
                 } else {
-                    window.limit = true;
+                    limit = true;
                 }
             })
             .then(json => {
+                console.log(json);
                 if (state.images.length === 0 && json) {
                     addImages( json );
-                } else if (!json && !window.limit) {
+                } else if (!json && !limit) {
                     alert('Исчерпан лимит запросов!');
                     console.error('Исчерпан лимит запросов!');
                 }
             });
         } catch (ex) { console.error("Ошибка при работе с unsplash:" + ex) }
     }
+    window.st = state;
+    console.log(state);
 
     if(document.querySelector('.photos-grid-view')) {
         document.querySelector('.photos-grid-view').classList.remove('blur');
         document.querySelector('.navbar').classList.remove('blur');
     }
     document.body.style.overflow = 'overlay';
-    if(window.limit) {
+    if(limit) {
         return <div>Лимит запросов исчерпан. Приходите позже.</div>;
     } else {
         return <div className="home-container">
@@ -113,7 +114,7 @@ const Home = (ev, app, unsplash, setMyInfo, addImages, likeImage, popupImage, st
                 }
             </Masonry>
             <button className="btn load-more" onClick={ev=>{
-                unsplash.photos.listPhotos(i, 10, "latest")
+                unsplash.photos.listPhotos(i, 16, "latest")
                     .then(res => res.json())
                     .then(json => {
                         i++;

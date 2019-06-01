@@ -20,25 +20,21 @@ class App extends React.Component {
       if (window.location.search.split('code=')[1]) {
         let data = await getUser(unsplash);
         if (data != "Rate Limit Exceeded" && !JSON.parse(data).errors) {
-          console.log(data);
           window.localStorage['user'] = data;
         }
       }
     }
     getAsync();
-    setMyInfo(JSON.parse(window.localStorage['user']));
-    console.log(JSON.parse(window.localStorage['user']));
-    if (!getCookie("token") || !window.localStorage['keycode']) {      
+    if (!getCookie("token") || !window.localStorage['keycode']) {
       return <div>
         <Header />
         <UnregisterPage />
       </div>;
     } else if (window.localStorage['user']) {
-      unsplash.auth.setBearerToken( window.localStorage['token'] );
       return <Router>
           <div className="App">
             <Header unsplash={ unsplash } setMyInfo={ setMyInfo } user_info={ state.user_info }  state={ state } changeSettings={ changeSettings } />
-            <Route exact path="/*" render={ (ev)=>Home(ev, unsplash, setMyInfo, addImages, likeImage, popupImage, state) } />
+            <Route exact path="/*" render={ (ev)=>Home(unsplash, setMyInfo, addImages, likeImage, popupImage, state) } />
           </div>
         </Router>;
     } else {
