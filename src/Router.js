@@ -15,14 +15,15 @@ class App extends React.Component {
     window.token = getCookie("token");
     const getAsync = async () => {
       if (!window.token && (window.location.search.split('code=')[1] || window.localStorage['keycode'])) {
-        await getToken(unsplash);
+        await getToken(unsplash, window.location.search.split('code=')[1] || window.localStorage['keycode']);
         window.token = getCookie("token");
         window.localStorage['user'] = "";
       }
       if (!window.localStorage['user'] && window.token) {
         let data = await getUser(unsplash);
-        if (data != "Rate Limit Exceeded" && !JSON.parse(data).errors) {
-          window.localStorage['user'] = data;
+        console.log(data);
+        if (data && data != "Rate Limit Exceeded" && !data.errors) {
+          window.localStorage['user'] = JSON.stringify(data);
         }
       }
       if (window.location.search.split('code=')[1]) {

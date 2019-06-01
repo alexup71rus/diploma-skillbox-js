@@ -24,23 +24,22 @@ export const authenticationUnsplash = (unsplash) => {
     window.location.assign(authenticationUrl); // Перенапревление на авторизацию в unsplash
 }
 
-export const getToken = (unsplash) => {
+export const getToken = (unsplash, code) => {
     if (getCookie("token")) {
         return unsplash.auth.setBearerToken(getCookie("token"));
     };
-    const code = window.location.search.split('code=')[1];
     if (code) {
         return unsplash.auth.userAuthentication(code)
             .then(res => res.text())
             .then(res => {
-                if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) {
+                if (res && res != "Rate Limit Exceeded" && !JSON.parse(res).errors) {
                     window.localStorage['keycode'] = code;
                     let date = new Date;
                     date.setDate(date.getDate() + 1);
-                    setCookie("token", res.access_token, {
+                    setCookie("token", JSON.parse(res).access_token, {
                         expires: date.toUTCString()
                     });
-                    unsplash.auth.setBearerToken(res.access_token);
+                    unsplash.auth.setBearerToken(JSON.parse(res).access_token);
                 } else { console.error("Лимит запросов исчерпан!"); }
         });
     }
@@ -50,7 +49,7 @@ export const getUser = (unsplash) => {
     return unsplash.currentUser.profile()
       .then(res => res.text())
       .then(res => {
-        if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
+        if (res && res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
         else { console.error("Лимит запросов исчерпан!"); }
       })
 }
