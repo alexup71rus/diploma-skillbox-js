@@ -1,3 +1,10 @@
+Видео: https://www.youtube.com/watch?v=Kgjrh8zUmb4&t
+
+## Информация перед запуском
+
+1. В папке scr в файле Router.js на 13 и 14 строчке нужно поставить свои ключи от unsplash
+2. В этом же файле на 24 строчке нужно указать свой публичный url приложения.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
