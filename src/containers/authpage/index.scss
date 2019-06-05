@@ -56,11 +56,14 @@ body {
 
 .auth-btn {
     position: fixed;
-    top: 15%;
+    bottom: 10%;
     left: 50%;
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     box-shadow: 0 3px 30px -5px #888;
     background: #fff;
+    padding: 10px 30px;
+    font-weight: 600;
 }
 
 .auth-btn:hover {

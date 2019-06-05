@@ -27,12 +27,11 @@ export const authenticationUnsplash = (unsplash) => {
 export const getToken = (unsplash, code) => {
     if (getCookie("token")) {
         return unsplash.auth.setBearerToken(getCookie("token"));
-    };
-    if (code) {
+    } else if (code) {
         return unsplash.auth.userAuthentication(code)
             .then(res => res.text())
             .then(res => {
-                if (res && res != "Rate Limit Exceeded" && !JSON.parse(res).errors) {
+                if (res && res != "Rate Limit Exceeded") {
                     window.localStorage['keycode'] = code;
                     let date = new Date;
                     date.setDate(date.getDate() + 1);
@@ -65,24 +64,24 @@ export const getPhotos = (unsplash, start = 1, end = 15) => {
     )
 }
   
-export const likePhoto = (unsplash, id) => {
-    return (
-      unsplash.photos.likePhoto(id)
-        .then(res => res.text())
-        .then(res => {
-            if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
-            else { console.error("Лимит запросов исчерпан!"); }
-        })
-    )
-}
-  
-export const unlikePhoto = (unsplash, id) => {
-    return (
-      unsplash.photos.unlikePhoto(id)
-        .then(res => res.text())
-        .then(res => {
-            if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
-            else { console.error("Лимит запросов исчерпан!"); }
-        })
-    )
+export const likePhoto = (unsplash, image) => {
+    if (image.liked_by_user == true) {
+        return (
+            unsplash.photos.likePhoto(image.id)
+              .then(res => res.text())
+              .then(res => {
+                  if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
+                  else { console.error("Лимит запросов исчерпан!"); }
+              })
+          )
+    } else if (image.liked_by_user == false) {
+        return (
+            unsplash.photos.unlikePhoto(image.id)
+              .then(res => res.text())
+              .then(res => {
+                  if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
+                  else { console.error("Лимит запросов исчерпан!"); }
+              })
+          )
+    }
 }

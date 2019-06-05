@@ -10,18 +10,14 @@ const reducers = (state = [], action) => {
         return {...newState};
 
         case 'TOGGLE_LIKE':
-        let i = 0;
-        newState.images = state.images.map((image)=>{
-            i++;
+        newState.images = state.images.map((image, i)=>{
             if(i === action.id){
-                if (image.liked_by_user) {
+                if (image.liked_by_user == true) {
                     image.liked_by_user = false;
                     image.likes--;
-                    action.unsplash.photos.unlikePhoto(action.image);
-                } else {
+                } else if (image.liked_by_user == false) {
                     image.liked_by_user = true;
                     image.likes++;
-                    action.unsplash.photos.likePhoto(action.image);
                 }
                 return image;
             }
@@ -39,7 +35,6 @@ const reducers = (state = [], action) => {
 
         case 'TOGGLE_BLUR':
         newState.settings = { ...action.arr };
-        // window.localStorage.setItem('settings', JSON.stringify(newState.settings)); window.localStorage.setItem('settings', JSON.stringify(newState.settings));
         return {...newState};
 
         default:

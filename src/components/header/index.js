@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './index.scss';
 import logo from '../../img/svg/logo2.svg';
+import { deleteCookie } from '../../helpers';
 
 const Header = ({ setMyInfo, user_info, authenticationUrl, state, changeSettings }) => {
   if(user_info){
@@ -14,7 +15,7 @@ const Header = ({ setMyInfo, user_info, authenticationUrl, state, changeSettings
           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span className="username">{user_info.first_name}</span>
           </a>
-          <div className="dropdown-menu dropdown-menu-right" style={{right: '0px', width: '215px', left: 'auto'}} aria-labelledby="navbarDropdownMenuLink">
+          <div className="dropdown-menu dropdown-menu-right" style={{right: '0px', width: '225px', left: 'auto'}} aria-labelledby="navbarDropdownMenuLink">
             <a className="dropdown-item" href={linkSelf} target="_blank" rel="noopener noreferrer">Профиль</a>
             <div className="dropdown-divider"></div>
             <h6 className="dropdown-header">Настройки</h6>
@@ -29,17 +30,17 @@ const Header = ({ setMyInfo, user_info, authenticationUrl, state, changeSettings
               </div>
             </div>
             <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="#" onClick={ev=>{
-                  ev.preventDefault();
+            <a className="dropdown-item" href="/" onClick={ev=>{
+                  deleteCookie('token');
                   window.localStorage.setItem('user', '');
-                  window.location.reload();
+                  window.location.assign('/');
                 }}>Выйти</a>
           </div>
         </li>
       </nav>
     </header>;
   } else {
-    return <header className="app-header" style={{width: "100%"}}>
+    return <header className="app-header">
       <nav className="navbar navbar-light bg-light">
         <a className="navbar-brand" href="#" onClick={ev=>ev.preventDefault()}>
           <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="" /> <span className="logo-text">UNSPLASH</span> <span style={{color: "#999", fontSize: "13px"}}>viewer</span>

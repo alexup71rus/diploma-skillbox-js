@@ -31,3 +31,13 @@ export function setCookie(name, value, options) {
 
     document.cookie = updatedCookie;
 }
+
+export function deleteCookie(name) {
+    setCookie(name, "", {
+      expires: -1
+    })
+}
+
+export function invertColor(rColor) {
+    return (parseInt(rColor, 20) ^ 0xFFFFFF | 0x1000000).toString(16).substring(1);
+}

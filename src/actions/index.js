@@ -1,18 +1,18 @@
-export const setMyInfo = (info) => {
+export const setMyInfoAction = (info) => {
     return {
         type: 'SET_MY_INFO',
         info: info
     }
 }
 
-export const addImages = (images) => {
+export const addImagesAction = (images) => {
     return {
         type: 'ADD_IMAGES',
         images: images
     }
 }
 
-export const likeImage = (id, unsplash, image) => {
+export const likeImageAction = (unsplash, id, image) => {
     return {
         type: 'TOGGLE_LIKE',
         id: id,
@@ -21,7 +21,7 @@ export const likeImage = (id, unsplash, image) => {
     }
 }
 
-export const popupImage = (id, state, image) => {
+export const popupImageAction = (id, state, image) => {
     return {
         type: 'POPUP_IMAGE',
         id: id,
@@ -30,7 +30,7 @@ export const popupImage = (id, state, image) => {
     }
 }
 
-export const changeSettings = (arr) => {
+export const changeSettingsAction = (arr) => {
     return {
         type: 'CHANGE_SETTINGS',
         arr: arr
