@@ -3,7 +3,7 @@ import './index.scss';
 import logo from '../../img/svg/logo2.svg';
 import { deleteCookie } from '../../helpers';
 
-const Header = ({ setMyInfo, user_info, authenticationUrl, state, changeSettings }) => {
+const Header = ({ user_info, authenticationUrl, state, changeSettings }) => {
   if(user_info){
     let linkSelf = user_info.links?user_info.links.html:'#';
     return <header className="app-header">

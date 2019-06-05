@@ -46,7 +46,7 @@ class Home extends React.Component {
         }
         document.body.style.overflow = 'overlay';
         return <div className="home-container">
-            <Route path="/:image" render={ (ev)=><Popup route={ev} state={state} popupImageAction={popupImageAction} likeImageAction={likeImageAction} /> } />
+            <Route path="/:image" render={ (ev)=><Popup route={ev} state={state} popupImageAction={popupImageAction} likePhoto={likePhoto} likeImageAction={likeImageAction} /> } />
             <Masonry
                 className={ 'photos-grid-view' }
                 elementType={'div'}
@@ -59,7 +59,7 @@ class Home extends React.Component {
                         let liked_by = image.liked_by_user?liked:like;
                         return <figure key={i} className="figure" style={{minHeight: 195}}>
                             <Link to={"/image/" + image.id}>
-                                <img src={image.urls.small} className="figure-img img-fluid rounded" alt="" style={{minHeight: '195px', minWidth: '100%', backgroundColor: image.color}} onClick={ev=>popupImageAction(i, {/* state */}, image)}/>
+                                <img src={image.urls.small} className="figure-img img-fluid rounded" alt="image" style={{minHeight: '195px', minWidth: '100%', backgroundColor: image.color}} onClick={ev=>popupImageAction(i, {/* state */}, image)}/>
                             </Link>
                             {
                                 state.settings.date ? dateJSX : null

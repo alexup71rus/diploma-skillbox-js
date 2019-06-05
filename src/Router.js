@@ -11,7 +11,7 @@ import { changeSettingsAction, setMyInfoAction } from './actions/index';
 
 class App extends React.Component {
   render() {
-    const { state, changeSettingsAction, routeLocation } = this.props;
+    const { state, changeSettingsAction, setMyInfoAction, routeLocation } = this.props;
     window.token = getCookie("token");
     const getAsync = async () => {
       if (window.location.search.split('code=')[1]) {
@@ -26,6 +26,9 @@ class App extends React.Component {
           window.localStorage['user'] = JSON.stringify(data);
         }
       }
+      if (!Object.keys(state.user_info).length) {
+        setMyInfoAction(JSON.parse(window.localStorage['user']));
+      }
       if (window.location.search.split('code=')[1]) {
         routeLocation.history.push('/');
       }
@@ -38,7 +41,7 @@ class App extends React.Component {
       </div>;
     } else if (window.localStorage['user']) {
       return <div className="App">
-            <Header setMyInfoAction={ setMyInfoAction } user_info={ state.user_info }  state={ state } changeSettingsAction={ changeSettingsAction } />
+            <Header user_info={ state.user_info }  state={ state } changeSettingsAction={ changeSettingsAction } />
             <Route exact path="/*" render={ (ev)=><Home state={state} route={ev} /> } />
           </div>;
     } else {
@@ -55,6 +58,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setMyInfoAction: (info) => {
+      console.log(info);
+      dispatch(setMyInfoAction(info));
+    },
     changeSettingsAction: (status) => {
       dispatch(changeSettingsAction(status));
     }

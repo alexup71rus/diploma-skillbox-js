@@ -13,7 +13,7 @@ class Popup extends React.Component {
     }
 
     render() {
-        const { route, state, popupImageAction, likeImageAction } = this.props;
+        const { route, state, popupImageAction, likePhoto, likeImageAction } = this.props;
         if(document.querySelector('.photos-grid-view') && state.settings.blur) {
             document.querySelector('.photos-grid-view').classList.add('blur');
             document.querySelector('.navbar').classList.add('blur');
@@ -42,7 +42,10 @@ class Popup extends React.Component {
                             <a href={state.popup_image.image.links.download} target="_blank" rel="noopener noreferrer">
                                 <img src={downloadSVG} alt="" className="download" />
                             </a>
-                            <button className="like-button popup-like" onClick={ev=>likeImageAction(unsplash, state.popup_image.id, state.popup_image.image)}>
+                            <button className="like-button popup-like" onClick={ev=>{
+                                // likePhoto(unsplash, state.popup_image.image);
+                                likeImageAction(unsplash, state.popup_image.id, state.popup_image.image)}
+                            }>
                                 <img src={state.popup_image.image.liked_by_user?liked:like} alt="like" className="like-small" />
                                 <span className="likes">{state.popup_image.image.likes}</span>
                             </button>
