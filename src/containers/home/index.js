@@ -30,7 +30,6 @@ const debounce = async (addImagesAction, unsplash, state) => {
 class Home extends React.Component {
     render() {
         const { state, route, addImagesAction, popupImageAction, likeImageAction } = this.props;
-        console.log(state);
         if (!Object.keys(state.user_info).length) {
             setMyInfoAction(JSON.parse(window.localStorage['user']));
         }
@@ -47,7 +46,7 @@ class Home extends React.Component {
         }
         document.body.style.overflow = 'overlay';
         return <div className="home-container">
-            <Route path="/:image" component={ (ev)=><Popup route={ev} state={state} popupImageAction={popupImageAction} likeImageAction={likeImageAction} /> } />
+            <Route path="/:image" render={ (ev)=><Popup route={ev} state={state} popupImageAction={popupImageAction} likeImageAction={likeImageAction} /> } />
             <Masonry
                 className={ 'photos-grid-view' }
                 elementType={'div'}

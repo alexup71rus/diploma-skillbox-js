@@ -20,7 +20,6 @@ class Popup extends React.Component {
         }
         document.body.style.overflow = 'hidden';
         if(state.popup_image.id > -1) {
-            let liked_image = state.popup_image.image.liked_by_user?liked:like;
             return <div className="popup">
                 <Link to="/">
                     <div className="bg-popup" ></div>
@@ -43,8 +42,8 @@ class Popup extends React.Component {
                             <a href={state.popup_image.image.links.download} target="_blank" rel="noopener noreferrer">
                                 <img src={downloadSVG} alt="" className="download" />
                             </a>
-                            <button className="like-button popup-like" onClick={ev=>likeImageAction(state.popup_image.id, unsplash, state.popup_image.image.id)}>
-                                <img src={liked_image} alt="" className="like-small" />
+                            <button className="like-button popup-like" onClick={ev=>likeImageAction(unsplash, state.popup_image.id, state.popup_image.image)}>
+                                <img src={state.popup_image.image.liked_by_user?liked:like} alt="like" className="like-small" />
                                 <span className="likes">{state.popup_image.image.likes}</span>
                             </button>
                         </div>
