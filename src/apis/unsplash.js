@@ -65,18 +65,18 @@ export const getPhotos = (unsplash, start = 1, end = 15) => {
 }
   
 export const likePhoto = (unsplash, image) => {
-    if (image.liked_by_user == true) {
+    if (image.liked_by_user === true) {
         return (
-            unsplash.photos.likePhoto(image.id)
+            unsplash.photos.unlikePhoto(image.id)
               .then(res => res.text())
               .then(res => {
                   if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }
                   else { console.error("Лимит запросов исчерпан!"); }
               })
           )
-    } else if (image.liked_by_user == false) {
+    } else if (image.liked_by_user === false) {
         return (
-            unsplash.photos.unlikePhoto(image.id)
+            unsplash.photos.likePhoto(image.id)
               .then(res => res.text())
               .then(res => {
                   if (res != "Rate Limit Exceeded" && !JSON.parse(res).errors) { return JSON.parse(res); }

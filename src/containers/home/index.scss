@@ -69,19 +69,22 @@
 .owner-date {
     float: left;
     font-size: 12px;
-    margin-left: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
+    // margin-left: 5px;
+    padding: 3px 2px;
     position: absolute;
-    /* text-align: center; */
-    /* width: 95%; */
-    left: 2px;
-    bottom: 38px;
+    text-align: center;
+    width: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    // bottom: 38px;
+    top: -5px;
     background: #fff;
     color: #000;
     opacity: 1;
     pointer-events: none;
-    /* mix-blend-mode: difference; */
+    // mix-blend-mode: difference;
+    border-radius: 10px;
+    // opacity: .8;
 }
 
 // .figure:hover .owner-date {

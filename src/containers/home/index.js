@@ -55,19 +55,18 @@ class Home extends React.Component {
             >
                 {
                     state.images.map((image, i)=>{
-                        const dateJSX = <span className="owner-date" style={{ color: "#" + image.color + "e7", backgroundColor: "#" + invertColor(image.color.slice(1)) + "60" }}>{image.updated_at}</span>;
                         let liked_by = image.liked_by_user?liked:like;
                         return <figure key={i} className="figure" style={{minHeight: 195}}>
                             <Link to={"/image/" + image.id}>
                                 <img src={image.urls.small} className="figure-img img-fluid rounded" alt="image" style={{minHeight: '195px', minWidth: '100%', backgroundColor: image.color}} onClick={ev=>popupImageAction(i, {/* state */}, image)}/>
                             </Link>
                             {
-                                state.settings.date ? dateJSX : null
+                                state.settings.date ? <span className="owner-date">{image.updated_at}</span> : null
                             }
                             <figcaption className="figure-caption text-right">
                                 <a href={image.user.links.html} target="_blank" rel="noopener noreferrer" className="owner"><b>{image.user.name}</b></a>
                                 <button className="like-button" onClick={ev=>{
-                                    // likePhoto(unsplash, image);
+                                    likePhoto(unsplash, image);
                                     likeImageAction(unsplash, i, image);
                                 }}>
                                     <img src={liked_by} alt="" className="like-small"/>

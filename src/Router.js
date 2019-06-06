@@ -18,7 +18,7 @@ class App extends React.Component {
         await getToken(unsplash, window.location.search.split('code=')[1]);
         window.token = getCookie("token");
       } else if (window.token) {
-        // getToken(unsplash);
+        getToken(unsplash);
       }
       if (!window.localStorage['user'] && window.token) {
         let data = await getUser(unsplash);
@@ -41,7 +41,7 @@ class App extends React.Component {
       </div>;
     } else if (window.localStorage['user']) {
       return <div className="App">
-            <Header user_info={ state.user_info }  state={ state } changeSettingsAction={ changeSettingsAction } />
+            <Header state={ state } changeSettingsAction={ changeSettingsAction } />
             <Route exact path="/*" render={ (ev)=><Home state={state} route={ev} /> } />
           </div>;
     } else {
@@ -59,7 +59,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setMyInfoAction: (info) => {
-      console.log(info);
       dispatch(setMyInfoAction(info));
     },
     changeSettingsAction: (status) => {

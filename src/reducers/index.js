@@ -33,8 +33,12 @@ const reducers = (state = [], action) => {
         };
         return {...newState};
 
-        case 'TOGGLE_BLUR':
-        newState.settings = { ...action.arr };
+        case 'CHANGE_SETTINGS':
+        Object.keys(action.arr).map((item, index) => {
+            if (newState.settings[item] !== undefined) {
+                newState.settings[item] = action.arr[item];
+            }
+        });
         return {...newState};
 
         default:

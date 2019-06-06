@@ -43,7 +43,7 @@ class Popup extends React.Component {
                                 <img src={downloadSVG} alt="" className="download" />
                             </a>
                             <button className="like-button popup-like" onClick={ev=>{
-                                // likePhoto(unsplash, state.popup_image.image);
+                                likePhoto(unsplash, state.popup_image.image);
                                 likeImageAction(unsplash, state.popup_image.id, state.popup_image.image)}
                             }>
                                 <img src={state.popup_image.image.liked_by_user?liked:like} alt="like" className="like-small" />
