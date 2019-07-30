@@ -4,7 +4,7 @@ import logo from '../../img/svg/logo2.svg';
 import { deleteCookie } from '../../helpers';
 
 const Header = ({ state, changeSettingsAction }) => {
-  if(state.user_info){
+  if (state && state.user_info){
     let linkSelf = state.user_info.links?state.user_info.links.html:'#';
     return <header className="app-header">
       <nav className="navbar navbar-light bg-light">

@@ -21,7 +21,7 @@
     }
 
     .photos-grid-view>figure {
-        width: auto;
+        width: 300px;
         border-radius: 10px;
         max-width: 320px;
         padding: 7px;
@@ -35,7 +35,7 @@
 
 @media (max-width: 800px) {
     .photos-grid-view>figure {
-        width: auto;
+        width: 300px;
         border-radius: 10px;
         max-width: 320px;
         padding: 7px;
@@ -86,13 +86,6 @@
     border-radius: 10px;
     // opacity: .8;
 }
-
-// .figure:hover .owner-date {
-//     background: rgba(50, 50, 50, 0.1);
-//     color: rgba(255, 255, 255, 0.74);
-//     opacity: 1;
-// }
-
 
 @media (max-width: 500px) {
     .logo-text, .username {

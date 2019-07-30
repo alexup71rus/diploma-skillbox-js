@@ -26,7 +26,7 @@ class App extends React.Component {
           window.localStorage['user'] = JSON.stringify(data);
         }
       }
-      if (!Object.keys(state.user_info).length) {
+      if (window.localStorage['user'] && !Object.keys(state.user_info).length) {
         setMyInfoAction(JSON.parse(window.localStorage['user']));
       }
       if (window.location.search.split('code=')[1]) {
@@ -34,6 +34,7 @@ class App extends React.Component {
       }
     }
     getAsync();
+    console.log(state);
     if (!getCookie("token") || !window.localStorage['keycode']) {
       return <div>
         <Header />
