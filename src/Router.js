@@ -34,7 +34,7 @@ class App extends React.Component {
       }
     }
     getAsync();
-    console.log(state);
+    
     if (!getCookie("token") || !window.localStorage['keycode']) {
       return <div>
         <Header />
