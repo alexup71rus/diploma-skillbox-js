@@ -1,4 +1,5 @@
-Видео: https://www.youtube.com/watch?v=Kgjrh8zUmb4&t
+Видео: https://www.youtube.com/watch?v=Kgjrh8zUmb4&t<br>
+Демо: https://alexup71rus.github.io/diploma-skillbox-js/
 
 ## Информация перед запуском
 
