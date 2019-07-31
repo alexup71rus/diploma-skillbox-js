@@ -9,7 +9,7 @@ const Header = ({ state, changeSettingsAction }) => {
     return <header className="app-header">
       <nav className="navbar navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="" /> <span className="logo-text">UNSPLASH</span> <span style={{color: "#999", fontSize: "13px"}}>viewer</span>
+          <img src={process.env.PUBLIC_URL + logo} width="30" height="30" className="d-inline-block align-top" alt="" /> <span className="logo-text">UNSPLASH</span> <span style={{color: "#999", fontSize: "13px"}}>viewer</span>
         </a>
         <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
