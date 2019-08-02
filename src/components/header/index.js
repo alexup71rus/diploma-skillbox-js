@@ -3,7 +3,7 @@ import './index.scss';
 import logo from '../../img/svg/logo2.svg';
 import { deleteCookie } from '../../helpers';
 
-const Header = ({ state, changeSettingsAction }) => {
+const Header = ({ state, changeSettingsAction }) => {  
   if (state && state.user_info){
     let linkSelf = state.user_info.links?state.user_info.links.html:'#';
     return <header className="app-header">
@@ -41,6 +41,13 @@ const Header = ({ state, changeSettingsAction }) => {
                 <label className="custom-control-label" htmlFor="blurSet">Размытие фона popup</label>
               </div>
             </div>
+            {
+              !window.matchMedia('(display-mode: standalone)').matches && 'serviceWorker' in navigator
+                ? (<button className="dropdown-item" onClick={() => {
+                    window.install();
+                  }}>Установить</button>)
+                : null
+            }
             <div className="dropdown-divider"></div>
             <a className="dropdown-item" href="/" onClick={ev=>{
                   deleteCookie('token');
