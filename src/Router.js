@@ -10,8 +10,19 @@ import { getCookie, setCookie } from './helpers';
 import { changeSettingsAction, setMyInfoAction } from './actions/index';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     const { state, changeSettingsAction, setMyInfoAction, routeLocation } = this.props;
+
+    document.onkeyup = function (e) {
+      if (e.key == "Escape" || e.code == "Escape") {
+        routeLocation.history.push('/');
+      }
+    }
+
     window.token = getCookie("token");
     const getAsync = async () => {
       if (window.location.search.split('code=')[1]) {
@@ -43,7 +54,7 @@ class App extends React.Component {
     } else if (window.localStorage['user']) {
       return <div className="App">
             <Header state={ state } changeSettingsAction={ changeSettingsAction } />
-            <Route exact path="/*" render={ (ev)=><Home state={state} route={ev} /> } />
+            <Route exact path="/*" render={(ev) => <Home state={state} route={ev} /> } />
           </div>;
     } else {
       return <b>Лимит запросов исчерпан или что-то пошло не так!</b>;

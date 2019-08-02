@@ -6,7 +6,7 @@ import { authenticationUnsplash, unsplash } from '../../apis/unsplash';
 const UnregisterPage = () => {
     return <div>
         <button className="btn btn-outline-primary auth-btn" onClick={ev=>{authenticationUnsplash(unsplash);}}>Авторизация</button>
-        <embed className="figure-image" src={process.env.PUBLIC_URL + maskFigure}></embed>
+        <embed className="figure-image" src={maskFigure}></embed>
     </div>;
 }
 

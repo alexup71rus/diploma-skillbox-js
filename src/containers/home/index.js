@@ -28,8 +28,38 @@ const debounce = async (addImagesAction, unsplash, state) => {
 }
 
 class Home extends React.Component {
+    constructor (props) {
+        super(props);
+    }
+
+    changePhoto(e) {
+        if (this.props.state.popup_image.id >= 0) {
+            if (e.key == "ArrowRight") {
+                if (this.props.state.images.length - 1 > this.props.state.popup_image.id) {
+                    const newID = this.props.state.popup_image.id + 1;
+                    const newImage = this.props.state.images[newID];
+                    if (newImage) {
+                        this.props.route.history.push('/image/' + this.props.state.images[newID].id);
+                        this.props.state.popup_image.id = newID;
+                        this.props.state.popup_image.image = newImage;
+                    }
+                }
+            } else if (e.key == "ArrowLeft") {
+                if (this.props.state.popup_image.id > 0) {
+                    const newID = this.props.state.popup_image.id - 1;
+                    const newImage = this.props.state.images[newID];
+                    if (newImage) {
+                        this.props.route.history.push('/image/' + this.props.state.images[newID].id);
+                        this.props.state.popup_image.id = newID;
+                        this.props.state.popup_image.image = newImage;
+                    }
+                }
+            }
+        }
+    }
+
     render() {
-        const { state, route, addImagesAction, popupImageAction, likeImageAction } = this.props;
+        const { state, route, addImagesAction, popupImageAction, likeImageAction, changePhoto } = this.props;
         if (!Object.keys(state.user_info).length) {
             setMyInfoAction(JSON.parse(window.localStorage['user']));
         }
@@ -45,8 +75,8 @@ class Home extends React.Component {
             document.querySelector('.navbar').classList.remove('blur');
         }
         document.body.style.overflow = 'overlay';
-        return <div className="home-container">
-            <Route path="/:image" render={ (ev)=><Popup route={ev} state={state} popupImageAction={popupImageAction} likePhoto={likePhoto} likeImageAction={likeImageAction} /> } />
+        return <div className="home-container" onKeyDown={(e) => this.changePhoto(e)}>
+            <Route path="/:image" render={(ev) => <Popup route={ev} state={state} popupImageAction={popupImageAction} likePhoto={likePhoto} likeImageAction={likeImageAction} changePhoto={(e) => this.changePhoto(e)} /> } />
             <Masonry
                 className={ 'photos-grid-view' }
                 elementType={'div'}

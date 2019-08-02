@@ -8,31 +8,27 @@ import liked from '../../img/svg/291212.svg';
 import './index.scss';
 
 class Popup extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        const { route, state, popupImageAction, likePhoto, likeImageAction } = this.props;
-        if(document.querySelector('.photos-grid-view') && state.settings.blur) {
+        const { route, state, popupImageAction, likePhoto, likeImageAction, changePhoto } = this.props;
+        if (document.querySelector('.photos-grid-view') && state.settings.blur) {
             document.querySelector('.photos-grid-view').classList.add('blur');
             document.querySelector('.navbar').classList.add('blur');
         }
         document.body.style.overflow = 'hidden';
-        if(state.popup_image.id > -1) {
+        if (state.popup_image.id > -1) {
             return <div className="popup">
                 <Link to="/">
-                    <div className="bg-popup" ></div>
+                    <div className="bg-popup"></div>
                 </Link>
                 <div className="popup-component">
                     <Link to="/">
-                        <div className="close-popup-bg" ></div>
-                        <img src={closeSVG} alt="" className="close-btn"  />
+                        <div className="close-popup-bg"></div>
+                        <img src={closeSVG} alt="close button" className="close-btn"  />
                     </Link>
-                    <div className="popupContainer">
+                    <div className="popupContainer" tabIndex={99} onKeyDown={(e) => changePhoto(e)}>
                         <div className="popup_header">
                             <div className="popup_user-card">
-                                <img src={state.popup_image.image.user.profile_image.small} alt="" className="popup_profile-image" />
+                                <img src={state.popup_image.image.user.profile_image.small} alt="popup image" className="popup_profile-image" />
                                 <div className="popup_profile-links">
                                     <b className="popup_user-card__user-name"> {state.popup_image.image.user.name}</b>
                                     <br/>
@@ -64,15 +60,15 @@ class Popup extends React.Component {
                 </div>
             </div>;
         } else {
-            if(state.popup_image.id == -1) {
+            if (state.popup_image.id == -1) {
                 popupImageAction(-2, {/* state */}, {});
                 unsplash.photos.getPhoto(route.location.pathname.split('/')[2])
                 .then(res => res.json())
                 .then(json => {
-                    popupImageAction(9999, {/* state */}, json);
+                    popupImageAction(state.images.length, {/* state */}, json);
                 });
             }
-            return <div className="popup">
+            return <div className="popup" onKeyDown={changePhoto}>
                 <div className="loading bg-popup">
                     <Link to="/" className="btn btn-outline-primary btn-cancel">Отменить</Link>
                 </div>
