@@ -1,17 +1,24 @@
 {
-  "short_name" : "UV",
-  "name" : "Unsplash Viewer",
-  "start_url" : "https://alexup71rus.github.io/diploma-skillbox-js/",
-  "display" : "standalone",
-  "theme_color" : "#000000",
-  "background_color" : "#ffffff",
-  "lang" : "",
-  "orientation" : "undefined",
-  "generated" : "undefined",
-  "icons" : [
-      {
-          "src": "https://alexup71rus.github.io/diploma-skillbox-js/favicon.ico",
-          "sizes": "64x64 32x32 24x24 16x16"
-      }
-  ]
+  "short_name": "UViewer",
+  "name": "Unsplash Viewer PWA",
+  "lang": "",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }, {
+      "src": "./icons/more/512.png",
+      "sizes": "512x512"
+    }, {
+      "src": "./icons/more/192.png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "orientation": "undefined",
+  "generated": "undefined"
 }
