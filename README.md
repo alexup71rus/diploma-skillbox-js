@@ -3,8 +3,7 @@
 
 ## Информация перед запуском
 
-1. В папке scr в файле Router.js на 13 и 14 строчке нужно поставить свои ключи от unsplash
-2. В этом же файле на 24 строчке нужно указать свой публичный url приложения.
+1. В файле scr/apis/unsplash.js в массиве DEFS на 4 строчке нужно указать свои ключи от unsplash и страницу для принятия ключа для входа
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
