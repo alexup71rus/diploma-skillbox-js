@@ -22,3 +22,6 @@ render(<Provider store={store}><Router><Route exact path="*" render={ (ev)=><App
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.register();
+
+let deferredPrompt = null;
+

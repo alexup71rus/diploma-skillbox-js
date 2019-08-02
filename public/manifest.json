@@ -1,15 +1,24 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "UViewer",
+  "name": "Unsplash Viewer PWA",
+  "lang": "",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    }, {
+      "src": "./icons/more/512.png",
+      "sizes": "512x512"
+    }, {
+      "src": "./icons/more/192.png",
+      "sizes": "192x192"
     }
   ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "orientation": "undefined",
+  "generated": "undefined"
 }
