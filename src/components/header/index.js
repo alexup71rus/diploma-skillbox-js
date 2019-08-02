@@ -42,7 +42,7 @@ const Header = ({ state, changeSettingsAction }) => {
               </div>
             </div>
             {
-              !window.matchMedia('(display-mode: standalone)').matches && 'serviceWorker' in navigator
+              !window.matchMedia('(display-mode: standalone)').matches && 'serviceWorker' in navigator && window.deferredPrompt
                 ? (<button className="dropdown-item" onClick={() => {
                     window.install();
                   }}>Установить</button>)
