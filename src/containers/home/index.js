@@ -74,7 +74,7 @@ class Home extends React.Component {
             document.querySelector('.photos-grid-view').classList.remove('blur');
             document.querySelector('.navbar').classList.remove('blur');
         }
-        document.body.style.overflow = 'overlay';
+        document.body.style.overflow = 'auto';
         return <div className="home-container" onKeyDown={(e) => this.changePhoto(e)}>
             <Route path="/:image" render={(ev) => <Popup route={ev} state={state} popupImageAction={popupImageAction} likePhoto={likePhoto} likeImageAction={likeImageAction} changePhoto={(e) => this.changePhoto(e)} /> } />
             <Masonry
